@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import { getAllProducts } from "../ApiService/apiService";
+import { Link } from "react-router-dom";
 export default function Home() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -25,7 +26,9 @@ export default function Home() {
           <p>
             <span className="price">${product.price}</span>
           </p>
-          <button>Product Details</button>
+          <Link to={`/product-details/${product.id}`}>
+            <button>Product Details</button>
+          </Link>
         </div>
       ))}
     </div>
