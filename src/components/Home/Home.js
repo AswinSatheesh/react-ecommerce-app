@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
+import { getAllProducts } from "../ApiService/apiService";
 export default function Home() {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchApiDetails = async () => {
+      const data = await getAllProducts();
+      console.log("Data from api : ", data);
+      setProducts(data);
+    };
+    // const fetchApiDetails = () => {
+    //   getAllProducts().then((data) => {
+    //     console.log(data, "Alternative solution");
+    //   });
+    // };
+    fetchApiDetails();
+  }, []);
   return (
     <div className="product-grid">
-      <div className="product">
-        <img src="" alt="Not Loaded" />
-        <h2>Sample</h2>
-        <p>
-          <span>10</span>
-        </p>
-        <button>Product Details</button>
-      </div>
+      {products.map((product) => (
+        <div className="product" key={product.id}>
+          <img src={product.image} alt="Not Loaded" />
+          <h2>{product.title}</h2>
+          <p>
+            <span className="price">${product.price}</span>
+          </p>
+          <button>Product Details</button>
+        </div>
+      ))}
     </div>
   );
 }
